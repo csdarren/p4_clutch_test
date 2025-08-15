@@ -109,28 +109,28 @@ extern "C" void app_main(void) {
 
     while (true) {
         twai_message_t can_frame;
-        if (twai_receive_v2(twai_hdl.h0, &can_frame, portMAX_DELAY)) {
-            if (can_frame.identifier != 0x130) {
-                bsp_display_lock(0);
-                lvgl_change_bg_color(2);
-                bsp_display_unlock();
-            } else {
-                ESP_LOGI("0x130", "Frame received");
-                if (can_frame.data[2] == 0x21) {
-                    ESP_LOGI("0x130", "clutch depressed, changing color to blue");
-                    bsp_display_lock(0);
-                    lvgl_change_bg_color(0);
-                    bsp_display_unlock();
-                }
-                if (can_frame.data[2] == 0x61) {
-                    ESP_LOGI("0x130", "clutch not depressed, changing color to red");
-                    bsp_display_lock(0);
-                    lvgl_change_bg_color(1);
-                    bsp_display_unlock();
-                }
-            }
-        } else {
+        if (twai_receive_v2(twai_hdl.h0, &can_frame, pdMS_TO_TICKS(3000)) != ESP_OK) {
             ESP_LOGI("Error", "Failed to receive any can data");
+            continue;
+        }
+
+        if (can_frame.identifier != 0x130) {
+            continue;
+        }
+
+        ESP_LOGI("0x130", "Frame received");
+        if (can_frame.data[2] == 0x21) {
+            ESP_LOGI("0x130", "clutch depressed, changing color to blue");
+            bsp_display_lock(0);
+            lvgl_change_bg_color(0);
+            bsp_display_unlock();
+        }
+
+        if (can_frame.data[2] == 0x61) {
+            ESP_LOGI("0x130", "clutch not depressed, changing color to red");
+            bsp_display_lock(0);
+            lvgl_change_bg_color(1);
+            bsp_display_unlock();
         }
     }
 }
