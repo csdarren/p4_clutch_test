@@ -1,0 +1,23 @@
+CompileFlags:
+    Remove: [
+    -fno-shrink-wrap, #clangd specific error, omitted using GCC
+    -fno-tree-switch-conversion, #clangd specific error, omitted using GCC
+    -fstrict-volatile-bitfields, #clangd specific error, omitted using GCC
+    ]
+    Add: [-march=rv32imafc_zicsr_zifencei] # Omits xesppie error
+Diagnostics:
+    Suppress: [unused-includes,
+    misc-use-anonymous-namespace,
+    cppcoreguidelines-avoid-c-arrays,
+    cppcoreguidelines-avoid-magic-numbers,
+    cppcoreguidelines-pro-bounds-array-to-pointer-decay,
+    -Wmissing-designated-field-initializers,
+    readability-implicit-bool-conversion,
+    modernize-avoid-c-arrays,
+    readability-magic-numbers,
+    cppcoreguidelines-avoid-do-while,
+    -Wc99-designator,
+    cppcoreguidelines-pro-type-vararg,
+    cppcoreguidelines-pro-type-union-access,
+    readability-function-cognitive-complexity,
+    ]

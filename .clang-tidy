@@ -1,0 +1,12 @@
+Checks: >
+  clang-analyzer-*,
+  cppcoreguidelines-*,
+  modernize-*,
+  performance-*,
+  readability-*,
+  bugprone-*,
+  misc-*,
+  -clang-analyzer-cplusplus*,
+WarningsAsErrors: ''
+FormatStyle: file
+
